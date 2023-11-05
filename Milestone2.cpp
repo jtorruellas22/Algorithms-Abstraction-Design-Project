@@ -4,7 +4,7 @@
 #include <algorithm>    
 using namespace std;
 
-
+//Data structure representing a buy/sell interval
 struct interval {
 	int product;
 	int buyDay;
@@ -21,7 +21,7 @@ struct interval {
 		profit = newProfit;
 	}
 };
-
+//This function intializes p which is a map from [interval indecies of the intervals]  -> [A pair holding the interval
 void initializeP(unordered_map<int, pair<interval,int>>& p, int intervalIndex, vector<interval> &intervals, int c) {
 	if(intervalIndex == 0)
 	{
@@ -101,28 +101,28 @@ int main() {
 	
 	vector<interval> intervals;
 	unordered_map<int, int> memTable;
-	vector<interval> output;
-	 int arr[5][7] = { {2, 9, 8, 4, 5, 0, 7},
-	 	              {6, 7, 3, 9, 1, 0, 8},
-	 	              {1, 7, 9, 6, 4, 9, 11},
-	 	              {7, 8, 3, 1, 8, 5, 2},
-	 	              {1, 8, 4, 0, 9, 2, 1}};
-	for (int i = 0; i < 5; i++) {
-		interval temp;
-		for (int j = 0; j < 7; j++) {
-			for(int k = j; k < 7; k++) {
-			    temp.buyDay = j +1;
-				temp.sellDay = k +1;
-				temp.profit = arr[i][k] - arr[i][j];
-				temp.product = i + 1;
-				if(temp.profit > 0) {
-					intervals.push_back(temp);
-				}
-			}
-		}
-	}
+	//vector<interval> output;
+	// int arr[5][7] = { {2, 9, 8, 4, 5, 0, 7},
+	// 	              {6, 7, 3, 9, 1, 0, 8},
+	// 	              {1, 7, 9, 6, 4, 9, 11},
+	// 	              {7, 8, 3, 1, 8, 5, 2},
+	// 	              {1, 8, 4, 0, 9, 2, 1}};
+	//for (int i = 0; i < 5; i++) {
+	//	interval temp;
+	//	for (int j = 0; j < 7; j++) {
+	//		for(int k = j; k < 7; k++) {
+	//		    temp.buyDay = j +1;
+	//			temp.sellDay = k +1;
+	//			temp.profit = arr[i][k] - arr[i][j];
+	//			temp.product = i + 1;
+	//			if(temp.profit > 0) {
+	//				intervals.push_back(temp);
+	//			}
+	//		}
+	//	}
+	//}
 
-	sort(intervals.begin(), intervals.end(), comparisonFunction);
+	//sort(intervals.begin(), intervals.end(), comparisonFunction);
 	for (int i = 0; i < intervals.size(); i++) {
 		initializeP(p, i, intervals, c);
 	}
