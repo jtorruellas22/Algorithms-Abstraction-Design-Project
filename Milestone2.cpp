@@ -65,6 +65,12 @@ int  opt(int intervalIndex, vector<interval> &intervals, unordered_map<int,int>&
 	}
 	else
 	{ 
+		//The optimal profit is equal to the maximum between:
+		
+		//The profit we can make at this current index in the optimal solution + the optimal profit we can make at the 
+		//closest previous index that does not correspond to an interval that overlaps with the interval at the current index or: 
+		
+		//The profit we can make at just the previous index
 		int maximum = max(intervals[intervalIndex].profit + opt(getClosestIntervalIndex(intervalIndex, p), intervals, memTable, p), opt(intervalIndex - 1, intervals, memTable, p));
 		memTable[intervalIndex] = maximum;
 		return maximum;
@@ -95,32 +101,37 @@ bool comparisonFunction(interval& left, interval& right) {
 	return left.sellDay < right.sellDay;
 }
 int main() {
+	// c represents the cool down period in days between seling and buying another stock
 	int c;
 	cin >> c;
+	//Map from interval indecies to a pair containing the previous interval index and the interval at that previous index
 	unordered_map<int, pair<interval, int>> p;
 	
 	vector<interval> intervals;
 	unordered_map<int, int> memTable;
-	//vector<interval> output;
-	// int arr[5][7] = { {2, 9, 8, 4, 5, 0, 7},
-	// 	              {6, 7, 3, 9, 1, 0, 8},
-	// 	              {1, 7, 9, 6, 4, 9, 11},
-	// 	              {7, 8, 3, 1, 8, 5, 2},
-	// 	              {1, 8, 4, 0, 9, 2, 1}};
-	//for (int i = 0; i < 5; i++) {
-	//	interval temp;
-	//	for (int j = 0; j < 7; j++) {
-	//		for(int k = j; k < 7; k++) {
-	//		    temp.buyDay = j +1;
-	//			temp.sellDay = k +1;
-	//			temp.profit = arr[i][k] - arr[i][j];
-	//			temp.product = i + 1;
-	//			if(temp.profit > 0) {
-	//				intervals.push_back(temp);
-	//			}
-	//		}
-	//	}
-	//}
+	vector<interval> output;
+
+	//Example matrix of m products and n days to buy and sell products
+	 int arr[5][7] = { {2, 9, 8, 4, 5, 0, 7},
+	 	              {6, 7, 3, 9, 1, 0, 8},
+	 	              {1, 7, 9, 6, 4, 9, 11},
+	 	              {7, 8, 3, 1, 8, 5, 2},
+	 	              {1, 8, 4, 0, 9, 2, 1}};
+	 //This for loop assembles the vector of all valid intervals that are profitable in the above matrix
+	for (int i = 0; i < 5; i++) {
+		interval temp;
+		for (int j = 0; j < 7; j++) {
+			for(int k = j; k < 7; k++) {
+			    temp.buyDay = j +1;
+				temp.sellDay = k +1;
+				temp.profit = arr[i][k] - arr[i][j];
+				temp.product = i + 1;
+				if(temp.profit > 0) {
+					intervals.push_back(temp);
+				}
+			}
+		}
+	}
 
 	//sort(intervals.begin(), intervals.end(), comparisonFunction);
 	for (int i = 0; i < intervals.size(); i++) {
